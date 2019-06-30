@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>image-processing on Chaitanya Patel</title>
+    <link>https://chaitanya100100.github.io/tags/image-processing/</link>
+    <description>Recent content in image-processing on Chaitanya Patel</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; Chaitanya Patel</copyright>
+    <lastBuildDate>Wed, 20 Feb 2019 10:50:47 +0530</lastBuildDate>
+    
+	    <atom:link href="https://chaitanya100100.github.io/tags/image-processing/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Content Aware Image Resizing</title>
+      <link>https://chaitanya100100.github.io/project/content_aware_image_resizing/</link>
+      <pubDate>Wed, 20 Feb 2019 10:50:47 +0530</pubDate>
+      
+      <guid>https://chaitanya100100.github.io/project/content_aware_image_resizing/</guid>
+      <description>&lt;p&gt;Matlab implementation of Seam Carving algorithm for image upsizing, downsizing and object removal. Two types of cost functions were implemented - pixel entropy cost and image gradient cost.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

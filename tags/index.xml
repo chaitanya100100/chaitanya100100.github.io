@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Chaitanya Patel</title>
+    <link>https://chaitanya100100.github.io/tags/</link>
+    <description>Recent content in Tags on Chaitanya Patel</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; Chaitanya Patel</copyright>
+    <lastBuildDate>Wed, 20 Feb 2019 10:59:14 +0530</lastBuildDate>
+    
+	    <atom:link href="https://chaitanya100100.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>NLP</title>
+      <link>https://chaitanya100100.github.io/tags/nlp/</link>
+      <pubDate>Wed, 20 Feb 2019 10:59:14 +0530</pubDate>
+      
+      <guid>https://chaitanya100100.github.io/tags/nlp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>computer-vision</title>
+      <link>https://chaitanya100100.github.io/tags/computer-vision/</link>
+      <pubDate>Wed, 20 Feb 2019 10:59:14 +0530</pubDate>
+      
+      <guid>https://chaitanya100100.github.io/tags/computer-vision/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>deep-learning</title>
+      <link>https://chaitanya100100.github.io/tags/deep-learning/</link>
+      <pubDate>Wed, 20 Feb 2019 10:59:14 +0530</pubDate>
+      
+      <guid>https://chaitanya100100.github.io/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>image-processing</title>
+      <link>https://chaitanya100100.github.io/tags/image-processing/</link>
+      <pubDate>Wed, 20 Feb 2019 10:50:47 +0530</pubDate>
+      
+      <guid>https://chaitanya100100.github.io/tags/image-processing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>reinforcement-learning</title>
+      <link>https://chaitanya100100.github.io/tags/reinforcement-learning/</link>
+      <pubDate>Wed, 20 Feb 2019 10:39:26 +0530</pubDate>
+      
+      <guid>https://chaitanya100100.github.io/tags/reinforcement-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>machine-learning</title>
+      <link>https://chaitanya100100.github.io/tags/machine-learning/</link>
+      <pubDate>Wed, 20 Feb 2019 10:34:17 +0530</pubDate>
+      
+      <guid>https://chaitanya100100.github.io/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spectral-methods</title>
+      <link>https://chaitanya100100.github.io/tags/spectral-methods/</link>
+      <pubDate>Wed, 20 Feb 2019 10:27:47 +0530</pubDate>
+      
+      <guid>https://chaitanya100100.github.io/tags/spectral-methods/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
