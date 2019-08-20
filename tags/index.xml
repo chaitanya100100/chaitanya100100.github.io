@@ -13,15 +13,6 @@
     
     
     <item>
-      <title>NLP</title>
-      <link>https://chaitanya100100.github.io/tags/nlp/</link>
-      <pubDate>Wed, 20 Feb 2019 10:59:14 +0530</pubDate>
-      
-      <guid>https://chaitanya100100.github.io/tags/nlp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>computer-vision</title>
       <link>https://chaitanya100100.github.io/tags/computer-vision/</link>
       <pubDate>Wed, 20 Feb 2019 10:59:14 +0530</pubDate>
@@ -36,6 +27,15 @@
       <pubDate>Wed, 20 Feb 2019 10:59:14 +0530</pubDate>
       
       <guid>https://chaitanya100100.github.io/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>NLP</title>
+      <link>https://chaitanya100100.github.io/tags/nlp/</link>
+      <pubDate>Wed, 20 Feb 2019 10:59:14 +0530</pubDate>
+      
+      <guid>https://chaitanya100100.github.io/tags/nlp/</guid>
       <description></description>
     </item>
     
