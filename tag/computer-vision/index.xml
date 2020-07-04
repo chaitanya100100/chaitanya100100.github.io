@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>computer-vision | Chaitanya Patel</title>
+    <link>https://chaitanya100100.github.io/tag/computer-vision/</link>
+      <atom:link href="https://chaitanya100100.github.io/tag/computer-vision/index.xml" rel="self" type="application/rss+xml" />
+    <description>computer-vision</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Chaitanya Patel</copyright><lastBuildDate>Sun, 14 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://chaitanya100100.github.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>computer-vision</title>
+      <link>https://chaitanya100100.github.io/tag/computer-vision/</link>
+    </image>
+    
+    <item>
+      <title>TailorNet: Predicting Clothing in 3D as a Function of Human Pose, Shape and Garment Style</title>
+      <link>https://chaitanya100100.github.io/publication/tailornet/</link>
+      <pubDate>Sun, 14 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>https://chaitanya100100.github.io/publication/tailornet/</guid>
+      <description>&lt;!-- &lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click the &lt;em&gt;Cite&lt;/em&gt; button above to demo the feature to enable visitors to import publication metadata into their reference management software.
+  &lt;/div&gt;
+&lt;/div&gt;
+ --&gt;
+&lt;!-- &lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click the &lt;em&gt;Slides&lt;/em&gt; button above to demo Academic&amp;rsquo;s Markdown slides feature.
+  &lt;/div&gt;
+&lt;/div&gt;
+ --&gt;
+&lt;!-- Supplementary notes can be added here, including [code and math](https://sourcethemes.com/academic/docs/writing-markdown-latex/). --&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HumanMeshNet: Polygonal Mesh Recovery of Humans</title>
+      <link>https://chaitanya100100.github.io/publication/humanmeshnet/</link>
+      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://chaitanya100100.github.io/publication/humanmeshnet/</guid>
+      <description>&lt;!-- &lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click the &lt;em&gt;Cite&lt;/em&gt; button above to demo the feature to enable visitors to import publication metadata into their reference management software.
+  &lt;/div&gt;
+&lt;/div&gt;
+ --&gt;
+&lt;!-- &lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click the &lt;em&gt;Slides&lt;/em&gt; button above to demo Academic&amp;rsquo;s Markdown slides feature.
+  &lt;/div&gt;
+&lt;/div&gt;
+ --&gt;
+&lt;!-- Supplementary notes can be added here, including [code and math](https://sourcethemes.com/academic/docs/writing-markdown-latex/). --&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Attention Modeling for Image Captioning</title>
+      <link>https://chaitanya100100.github.io/project/attention_modeling_for_image_captioning/</link>
+      <pubDate>Wed, 20 Feb 2019 10:59:14 +0530</pubDate>
+      <guid>https://chaitanya100100.github.io/project/attention_modeling_for_image_captioning/</guid>
+      <description>&lt;p&gt;Implemented Visual Attention in CNN-RNN architecture for image captioning described in paper 
+&lt;a href=&#34;https://arxiv.org/abs/1502.03044&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Show, Attend and Tell&lt;/a&gt; achieving the state of the art accuracy on MSCOCO dataset.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Content Aware Image Resizing</title>
+      <link>https://chaitanya100100.github.io/project/content_aware_image_resizing/</link>
+      <pubDate>Wed, 20 Feb 2019 10:50:47 +0530</pubDate>
+      <guid>https://chaitanya100100.github.io/project/content_aware_image_resizing/</guid>
+      <description>&lt;p&gt;Matlab implementation of Seam Carving algorithm for image upsizing, downsizing and object removal. Two types of cost functions were implemented - pixel entropy cost and image gradient cost.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Relative Attributes</title>
+      <link>https://chaitanya100100.github.io/project/relative_attributes/</link>
+      <pubDate>Wed, 20 Feb 2019 10:34:17 +0530</pubDate>
+      <guid>https://chaitanya100100.github.io/project/relative_attributes/</guid>
+      <description>&lt;p&gt;Implemented Visual Relative Attributes and Rank SVM for image classification and zero-shot learning based on ECCV-2011 best paper 
+&lt;a href=&#34;https://www.cc.gatech.edu/~parikh/relative.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Relative Attributes&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Spectral Image Matching</title>
+      <link>https://chaitanya100100.github.io/project/image_matching_with_spectral_analysis/</link>
+      <pubDate>Wed, 20 Feb 2019 10:27:47 +0530</pubDate>
+      <guid>https://chaitanya100100.github.io/project/image_matching_with_spectral_analysis/</guid>
+      <description>&lt;p&gt;Implemented Joint Spectral Correspondence proposed in a 
+&lt;a href=&#34;https://ieeexplore.ieee.org/document/6619205&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CVPR-2013 paper&lt;/a&gt; to match the images with disparate appearance arising from dramatic illumination (day vs night), age (historic vs new) and rendering style differences.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>VAE for Image Generation</title>
+      <link>https://chaitanya100100.github.io/project/vae_for_image_generation/</link>
+      <pubDate>Wed, 20 Feb 2019 10:16:04 +0530</pubDate>
+      <guid>https://chaitanya100100.github.io/project/vae_for_image_generation/</guid>
+      <description>&lt;p&gt;Implemented Variational Autoencoder generative model in Keras for image generation and its latent space visualization on MNIST and CIFAR10 datasets.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
