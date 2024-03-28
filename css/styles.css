@@ -1,0 +1,15 @@
+a {
+    /* color: #8888ff; */
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+body {
+    /* font-family: 'Nunito', sans-serif; */
+    font-family: 'Mulish';
+}
+.h1, .h2, .h3 {
+    font-family: 'Expletus Sans';
+    /* font-family: 'Azeret Mono'; */
+}
