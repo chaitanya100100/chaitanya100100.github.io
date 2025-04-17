@@ -1,1 +1,201 @@
-Coming soon...
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AdaVid: Adaptive Video-Language Pretraining</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .meta {
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem;
+      background: #fff;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #111;
+    }
+
+    a {
+      color: #0077cc;
+      text-decoration: none;
+    }
+
+    section {
+      margin-top: 2rem;
+    }
+
+    hr {
+      margin: 2rem 0;
+      border: none;
+      border-top: 2px solid #ddd;
+    }
+
+    .teaser {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .teaser img {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .teaser > div {
+      flex: 1;
+    }
+
+    small {
+      color: #666;
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.9em;
+      text-align: center;
+    }
+
+    figure {
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    figure img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+
+    pre {
+      background: #f4f4f4;
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 700px) {
+      .teaser {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>AdaVid: Adaptive Video-Language Pretraining</h1>
+
+    <p class="meta" style="text-align:center;">
+      <a href="https://chaitanya100100.github.io/" target="_blank">Chaitanya Patel</a>,
+      <a href="https://www.niebles.net/" target="_blank">Juan Carlos Niebles</a>,
+      <a href="https://stanford.edu/~eadeli/" target="_blank">Ehsan Adeli</a><br>
+      Stanford University
+    </p>
+
+    <p class="meta" style="text-align:center;">
+      CVPRW 2025
+      <br>
+      <a href="./Patel2025AdaVid.pdf" target="_blank">Paper</a> |
+      <a href="" target="_blank">ArXiv (Coming soon)</a> |
+      <a href="" target="_blank">Code (Coming soon)</a>
+      <!-- <a href="./bibtex.txt" target="_blank">BibTex</a> -->
+    </p>
+
+    <hr>
+
+    <section class="teaser">
+      <div>
+        <img src="./figures/teaser.png" alt="Teaser figure">
+        <small> A single AdaVid-trained video model facilitates inference with controllable computational footprint without any postprocessing. It allows one model to adjust its computational demands dynamically according to the requirements, thereby eliminating the need to train multiple distinct models.</small>
+      </div>
+      <div>
+        <h2>Abstract</h2>
+        <p>
+            Contrastive video-language pretraining has demonstrated great success in learning rich and robust video representations. However, deploying such video encoders on compute-constrained edge devices remains challenging due to their high computational demands. Additionally, existing models are typically trained to process only short video clips, often limited to 4 to 64 frames. In this paper, we introduce AdaVid, a flexible architectural framework designed to learn efficient video encoders that can dynamically adapt their computational footprint based on available resources. At the heart of AdaVid is an adaptive transformer block, inspired by Matryoshka Representation Learning, which allows the model to adjust its hidden embedding dimension at inference time. We show that AdaVid-EgoVLP, trained on video-narration pairs from the large-scale Ego4D dataset, matches the performance of the standard EgoVLP on short video-language benchmarks using only half the compute, and even outperforms EgoVLP when given equal computational resources. We further explore the trade-off between frame count and compute on the challenging Diving48 classification benchmark, showing that AdaVid enables the use of more frames without exceeding computational limits. To handle longer videos, we also propose a lightweight hierarchical network that aggregates short clip features, achieving a strong balance between compute efficiency and accuracy across several long video benchmarks.
+        </p>
+      </div>
+    </section>
+
+    <hr>
+
+    <h2>Adaptive Transformer Block</h2>
+    <figure>
+      <img src="figures/method.png" alt="AdaVid Architecture">
+      <small>AdaVid Framework is designed to train video encoders that facilitate adaptive compute-efficient inference.
+        (a) Key component of AdaVid is the Adaptive Transformer Layer, which is designed to handle input tokens of varying dimension sizes up to D. During each training iteration, each layer processes the input tokens with a randomly selected dimension size, enforcing a coarse-to-fine structure in the model's weights and activations. This allows an AdaVid-trained model to perform inference with a controllable compute footprint.
+        (b) The feedforward layer W<sub>2</sub> &sigma;(W<sub>1</sub> x + b<sub>1</sub>) + b<sub>2</sub> of the transformer can be modified to accommodate input tokens of size D/2 by appropriately slicing the weight and bias parameters. This approach is also applicable to the affine transformation of layer normalization.
+        (c) In multi-head attention, input tokens of size D/2 are processed using half the number of heads, rather than reducing the dimension of each head.
+      </small>
+    </figure>
+
+    <hr>
+    <h2>Inference Configurations</h2>
+    <figure>
+      <img src="configs.png" alt="Configs" style="max-width: 500px;">
+      <small>We evaluate a single trained AdaVid model with different configurations for embedding dimensions. [768 x 12] indicates that all 12 layers use 768-d tokens. [768 x 4,  576 x 4, 384 x 4] means that first four layers use 768-d, followed by four layers of 576-d, followed by final four layers of 384-d. The FLOPs are computed for T=4 frames.</small>
+    </figure>
+
+    <hr>
+    <h2>Results</h2>
+    <section style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
+      <div style="flex:1; min-width:280px;">
+        <img src="./egomcq_intra.png" alt="EgoMCQ (intra)" style="width: 100%;">
+        <small>AdaVid-EgoVLP-dec outperforms baselines on the EgoMCQ-intra benchmark and retains high accuracy even when using adaptively smaller embedding dimensions and reduced compute.</small>
+      </div>
+      <div style="flex:1; min-width:280px;">
+        <img src="./d48.png" alt="Diving48" style="width: 100%;">
+        <small>AdaVid uses adaptive dimensions to handle more frames (64-128) within a fixed compute budget, outperforming standard non-adaptive baselines on Diving-48 benchmark.</small>
+      </div>
+      <div style="flex:1; min-width:280px;">
+        <img src="./longvid_r3.png" alt="LongVideoRetrieval" style="width: 100%;">
+        <small>AdaVid-Agg outperforms HierVL on long video retrieval across multiple frame counts (64, 96, 128) and with less compute.</small>
+      </div>
+    </section>
+
+    <hr>
+
+    <figure>
+      <img src="figures/egomcq_vis_1.png" alt="">
+      <small>We show two challenging examples from the EgoMCQ(intra) benchmark, each consisting of a text query and five candidate video clips. We also show the predictions made by our AdaVid-EgoVLP model under four different evaluation configurations. The results indicate that the model can do accurate fine-grained video analysis by adaptively increasing its compute. <a href="./figures/egomcq_vis_2.png" target="_blank">Here</a> is another example.</small>
+    </figure>
+
+    <hr>
+
+    <figure>
+        <img src="figures/egoschema_vis_1.png" alt="">
+        <small>We show two examples from the EgoSchema VideoQA benchmark, each consisting of a video and a question with 5 candidate answers. We also show the predictions made by our AdaVid-Agg model under four different evaluation configurations. The results indicate that the model can do long-form video analysis efficiently by adaptively increasing its compute. <a href="./figures/egoschema_vis_2.png" target="_blank">Here</a> is another example.</small>
+    </figure>
+
+    <hr>
+
+    <section>
+      <h2>BibTex</h2>
+      <pre><code>@InProceedings{Patel2025AdaVid,
+    author    = {Patel, Chaitanya and Niebles, Juan Carlos and Adeli, Ehsan},
+    title     = {AdaVid: Adaptive Video-Language Pretraining},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Workshops},
+    month     = {June},
+    year      = {2025}
+}</code></pre>
+    </section>
+  </main>
+</body>
+</html>
