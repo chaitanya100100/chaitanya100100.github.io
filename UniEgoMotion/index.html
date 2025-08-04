@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UniEgoMotion: A Unified Model for Egocentric Motion Reconstruction, Forecasting, and Generation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .meta {
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem;
+      background: #fff;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #111;
+    }
+
+    a {
+      color: #0077cc;
+      text-decoration: none;
+    }
+
+    section {
+      margin-top: 2rem;
+    }
+
+    hr {
+      margin: 2rem 0;
+      border: none;
+      border-top: 2px solid #ddd;
+    }
+
+    .teaser {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .teaser img {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .teaser > div {
+      flex: 1;
+    }
+
+    small {
+      color: #666;
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.9em;
+      text-align: center;
+    }
+
+    figure {
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    figure img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+
+    pre {
+      background: #f4f4f4;
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 700px) {
+      .teaser {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>UniEgoMotion: A Unified Model for Egocentric Motion Reconstruction, Forecasting, and Generation</h1>
+
+    <!-- add affiliations -->
+    <p class="meta" style="text-align:center;">
+      <a href="https://chaitanya100100.github.io/" target="_blank">Chaitanya Patel</a><sup>1</sup>,
+      <a href="https://scholar.google.com/citations?user=jlCRvuYAAAAJ&hl=en" target="_blank">Hiroki Nakamura</a><sup>2</sup>,
+      <a href="https://www.linkedin.com/in/yuta-kyuragi-589128294/" target="_blank">Yuta Kyuragi</a><sup>1,3</sup>,
+      <a href="https://kazukikozuka.net/" target="_blank">Kazuki Kozuka</a><sup>2</sup>,
+      <a href="https://www.niebles.net/" target="_blank">Juan Carlos Niebles</a><sup>1</sup>,
+      <a href="https://stanford.edu/~eadeli/" target="_blank">Ehsan Adeli <sup>1</sup></a><br>
+      <span style="font-size: 0.75em;">
+        <sup>1</sup>Stanford University, <sup>2</sup>Panasonic Holdings Corporation, <sup>3</sup>Panasonic R&D Company of America
+      </span>
+    </p>
+
+    <p class="meta" style="text-align:center;">
+      ICCV 2025
+      <br>
+      <a href="./Patel2025UniEgoMotion.pdf" target="_blank">Paper</a> |
+      <!-- <a href="" target="_blank">ArXiv</a> | -->
+      <a href="https://github.com/chaitanya100100/UniEgoMotion" target="_blank">Code & Data</a>
+    </p>
+
+    <hr>
+
+    <figure>
+      <img src="./figures/teaser2.png" alt="Teaser figure" style="max-width: 80%;">
+        <small>
+            UniEgoMotion is a unified, scene-aware motion model designed for egocentric settings:
+            (1) It generates plausible future motion from a single egocentric image &mdash; for example, predicting how you might take your shot on goal.
+            (2) It forecasts upcoming motion using past egocentric video and ego-device trajectory, showing how you could complete your run-up to score.
+            (3) It reconstructs accurate 3D motion from past egocentric observations, showing how you squatted down to reach the lower cabinet.
+        </small>
+    </figure>
+    <section>
+      <h2>Abstract</h2>
+      <p>
+        Egocentric human motion generation and forecasting with scene-context is crucial for enhancing AR/VR experiences, improving human-robot interaction, advancing assistive technologies, and enabling adaptive healthcare solutions by accurately predicting and simulating movement from a first-person perspective. However, existing methods primarily focus on third-person motion synthesis with structured 3D scene contexts, limiting their effectiveness in real-world egocentric settings where limited field of view, frequent occlusions, and dynamic cameras hinder scene perception. To bridge this gap, we introduce Egocentric Motion Generation and Egocentric Motion Forecasting, two novel tasks that utilize first-person images for scene-aware motion synthesis without relying on explicit 3D scene. We propose UniEgoMotion, a unified conditional motion diffusion model with a novel head-centric motion representation tailored for egocentric devices. UniEgoMotion’s simple yet effective design supports egocentric motion reconstruction, forecasting, and generation from first-person visual inputs in a unified framework. Unlike previous works that overlook scene semantics, our model effectively extracts image-based scene context to infer plausible 3D motion. To facilitate training, we introduce EE4D-Motion, a large-scale dataset derived from EgoExo4D, augmented with pseudo-ground-truth 3D motion annotations. UniEgoMotion achieves state-of-the-art performance in egocentric motion reconstruction and is the first to generate motion from a single egocentric image. Extensive evaluations demonstrate the effectiveness of our unified framework, setting a new benchmark for egocentric motion modeling and unlocking new possibilities for egocentric applications.
+      </p>
+    </section>
+
+    <hr>
+
+    <h2>Overview</h2>
+    <figure>
+      <img src="figures/overview.png" alt="UniEgoMotion Overview" style="max-width: 95%;">
+      <small>
+        Overview of a denoising step in UniEgoMotion. The input noisy motion <b>X</b><sup>t</sup><sub>1:N</sub> is denoised using a transformer decoder network conditioned on the ego-device trajectory <b>T</b><sub>1:N</sub> and egocentric images <b>I</b><sub>1:N</sub>. A robust image encoder is used to extract fine-grained scene context from the images. During training, conditioning inputs are randomly replaced with learnable mask tokens to simulate three tasks: egocentric reconstruction, forecasting, and generation. During inference, the learned mask tokens are used in place of any missing conditioning input, allowing a single model to perform all three tasks consistently.
+      </small>
+    </figure>
+
+    <!-- <hr>
+
+    <section>
+      <h2>Egocentric Motion Reconstruction</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
+        <div style="flex:1; min-width:250px; max-width:320px; text-align:center;">
+          <video src="./figures/video_recon/1.mp4" controls autoplay loop muted style="width:100%; background:#000;"></video>
+        </div>
+        <div style="flex:1; min-width:250px; max-width:320px; text-align:center;">
+          <video src="./figures/video_recon/2.mp4" controls autoplay loop muted style="width:100%; background:#000;"></video>
+        </div>
+        <div style="flex:1; min-width:250px; max-width:320px; text-align:center;">
+          <video src="./figures/video_recon/3.mp4" controls autoplay loop muted style="width:100%; background:#000;"></video>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center;">
+        <span style="font-size: 0.85em; color: #888;">
+            View in full screen for best visualization.
+        </span>
+      </div>    
+
+      <small>Qualitative comparison of Egocentric Reconstruction. Baseline methods exhibit floating motion, floor penetration, and inaccurate joint localization, whereas UniEgoMotion generates reconstructions that closely align with the ground truth.</small>
+
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Egocentric Motion Forecasting</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
+        <div style="flex:1; min-width:250px; max-width:320px; text-align:center;">
+          <video src="./figures/video_fore/1.mp4" controls autoplay loop muted style="width:100%; background:#000;"></video>
+        </div>
+        <div style="flex:1; min-width:250px; max-width:320px; text-align:center;">
+          <video src="./figures/video_fore/2.mp4" controls autoplay loop muted style="width:100%; background:#000;"></video>
+        </div>
+        <div style="flex:1; min-width:250px; max-width:320px; text-align:center;">
+          <video src="./figures/video_fore/3.mp4" controls autoplay loop muted style="width:100%; background:#000;"></video>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 0.5rem;">
+        <span style="font-size: 0.85em; color: #888;">
+            View in full screen for best visualization.
+        </span>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Egocentric Motion Generation</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
+        <div style="flex:1; min-width:250px; max-width:320px; text-align:center;">
+          <video src="./figures/video_gen/1.mp4" controls autoplay loop muted style="width:100%; background:#000;"></video>
+        </div>
+        <div style="flex:1; min-width:250px; max-width:320px; text-align:center;">
+          <video src="./figures/video_gen/2.mp4" controls autoplay loop muted style="width:100%; background:#000;"></video>
+        </div>
+        <div style="flex:1; min-width:250px; max-width:320px; text-align:center;">
+          <video src="./figures/video_gen/3.mp4" controls autoplay loop muted style="width:100%; background:#000;"></video>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 0.5rem;">
+        <span style="font-size: 0.85em; color: #888;">
+            View in full screen for best visualization.
+        </span>
+      </div>
+    </section>
+ -->
+
+
+    <hr>
+
+    <section>
+      <h2>Egocentric Motion Reconstruction</h2>
+      <div style="display: flex; justify-content: center; margin-top: 1.5em;">
+        <div style="text-align:center;">
+          <video src="./figures/video_recon.mp4" controls autoplay loop muted style="width:100%; background:#000;"></video>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center;">
+        <span style="font-size: 0.85em; color: #888;">
+            View in full screen for best visualization.
+        </span>
+      </div>    
+
+      <small>Qualitative comparison of Egocentric Reconstruction. Baseline methods exhibit floating motion, floor penetration, and inaccurate joint localization, whereas UniEgoMotion generates reconstructions that closely align with the ground truth.</small>
+
+    </section>
+
+
+    <hr>
+
+    <section>
+      <h2>Egocentric Motion Forecasting</h2>
+      <div style="display: flex; justify-content: center; margin-top: 1.5em;">
+        <div style="text-align:center;">
+          <video src="./figures/video_fore.mp4" controls autoplay loop muted style="width:100%; background:#000;"></video>
+        </div>
+      </div>
+      
+      <div style="display: flex; justify-content: center;">
+        <span style="font-size: 0.85em; color: #888;">
+            View in full screen for best visualization.
+        </span>
+      </div>
+
+      <small>Qualitative comparison of Egocentric Forecasting for predicting future motion using the first 2 seconds of egocentric video and trajectory input. The LSTM baseline predicts an average future motion and suffers from foot sliding, while the Two-stage baseline produces damped motion. In contrast, our model successfully predicts complex motions, such as squatting down to repair a bike tire, performing a salsa dance, and executing a dribbling drill around a dome cone.</small>
+
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Egocentric Motion Generation</h2>
+      <div style="display: flex; justify-content: center; margin-top: 1.5em;">
+        <div style="text-align:center;">
+          <video src="./figures/video_gen.mp4" controls autoplay loop muted style="width:100%; background:#000;"></video>
+        </div>
+      </div>
+      
+      <div style="display: flex; justify-content: center;">
+        <span style="font-size: 0.85em; color: #888;">
+            View in full screen for best visualization.
+        </span>
+      </div>
+
+      <small>Qualitative comparison of Egocentric Motion Generation from a single egocentric image input. Compared to the LSTM and Two-stage baseline, our model leverages the fine-grained image features for more accurate motion generation, demonstrating soccer juggling, a basketball shooting drill, and interaction with the lower cabinet on the <i>left</i> side of the person.</small>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>BibTex</h2>
+      <pre><code>@inproceedings{patel25uniegomotion,
+  title     = {UniEgoMotion: A Unified Model for Egocentric Motion Reconstruction, 
+                Forecasting, and Generation},
+  author    = {Patel, Chaitanya and Nakamura, Hiroki and Kyuragi, Yuta and 
+                Kozuka, Kazuki and Niebles, Juan Carlos and Adeli, Ehsan},
+  booktitle = {International Conference on Computer Vision (ICCV)},
+  year      = {2025},
+}</code></pre>
+    </section>
+  </main>
+</body>
+</html>

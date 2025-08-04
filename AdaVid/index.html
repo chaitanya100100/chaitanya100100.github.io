@@ -119,7 +119,6 @@
       <a href="./Patel2025AdaVid.pdf" target="_blank">Paper</a> |
       <a href="https://arxiv.org/abs/2504.12513" target="_blank">ArXiv</a> |
       <a href="" target="_blank">Code (Coming soon)</a>
-      <!-- <a href="./bibtex.txt" target="_blank">BibTex</a> -->
     </p>
 
     <hr>
@@ -152,7 +151,7 @@
     <hr>
     <h2>Inference Configurations</h2>
     <figure>
-      <img src="configs.png" alt="Configs" style="max-width: 500px;">
+      <img src="figures/configs.png" alt="Configs" style="max-width: 500px;">
       <small>We evaluate a single trained AdaVid model with different configurations for embedding dimensions. [768 x 12] indicates that all 12 layers use 768-d tokens. [768 x 4,  576 x 4, 384 x 4] means that first four layers use 768-d, followed by four layers of 576-d, followed by final four layers of 384-d. The FLOPs are computed for T=4 frames.</small>
     </figure>
 
@@ -160,15 +159,15 @@
     <h2>Results</h2>
     <section style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
       <div style="flex:1; min-width:280px;">
-        <img src="./egomcq_intra.png" alt="EgoMCQ (intra)" style="width: 100%;">
+        <img src="./figures/egomcq_intra.png" alt="EgoMCQ (intra)" style="width: 100%;">
         <small>AdaVid-EgoVLP-dec outperforms baselines on the EgoMCQ-intra benchmark and retains high accuracy even when using adaptively smaller embedding dimensions and reduced compute.</small>
       </div>
       <div style="flex:1; min-width:280px;">
-        <img src="./d48.png" alt="Diving48" style="width: 100%;">
+        <img src="./figures/d48.png" alt="Diving48" style="width: 100%;">
         <small>AdaVid uses adaptive dimensions to handle more frames (64-128) within a fixed compute budget, outperforming standard non-adaptive baselines on Diving-48 benchmark.</small>
       </div>
       <div style="flex:1; min-width:280px;">
-        <img src="./longvid_r3.png" alt="LongVideoRetrieval" style="width: 100%;">
+        <img src="./figures/longvid_r3.png" alt="LongVideoRetrieval" style="width: 100%;">
         <small>AdaVid-Agg outperforms HierVL on long video retrieval across multiple frame counts (64, 96, 128) and with less compute.</small>
       </div>
     </section>

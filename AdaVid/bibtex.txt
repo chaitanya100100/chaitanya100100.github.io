@@ -1,7 +1,0 @@
-@InProceedings{Patel2025AdaVid,
-    author    = {Patel, Chaitanya and Niebles, Juan Carlos and Adeli, Ehsan},
-    title     = {AdaVid: Adaptive Video-Language Pretraining},
-    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Workshops},
-    month     = {June},
-    year      = {2025}
-}
