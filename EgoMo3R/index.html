@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EgoMo3R: Joint Egocentric Motion and Scene Reconstruction</title>
+  <meta name="description" content="EgoMo3R jointly reconstructs 3D human motion, camera trajectory, and metric gravity-aligned scene geometry from casual egocentric video. NeurIPS 2026." />
+  <meta property="og:title" content="EgoMo3R: Joint Egocentric Motion and Scene Reconstruction" />
+  <meta property="og:description" content="Joint optimization of 3D human motion and scene geometry from casual egocentric video. NeurIPS 2026." />
+  <meta property="og:image" content="https://chaitanya100100.github.io/EgoMo3R/figures/teaser.jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EDD2NXMTJB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EDD2NXMTJB');
+  </script>
+
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem;
+      background: #fff;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #111;
+    }
+
+    h1 {
+      font-size: 2rem;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    h1 .sub { display: block; font-weight: 500; font-size: 1.45rem; color: #444; margin-top: 0.3rem; }
+
+    a {
+      color: #0077cc;
+      text-decoration: none;
+    }
+
+    .meta {
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .affil { font-size: 0.8em; color: #444; font-weight: 400; }
+
+    .venue {
+      text-align: center;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 0.75rem 0 0.5rem;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+      margin: 0.75rem 0 0.5rem;
+    }
+
+    .links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      background: #222;
+      color: #fff;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .links a:hover { background: #000; }
+    .links svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* the interactive-results pill in the link row */
+    .links a.interactive {
+      background: linear-gradient(135deg, #f0a400, #e8590c);
+      box-shadow: 0 2px 10px rgba(232, 89, 12, 0.35);
+    }
+    .links a.interactive:hover { background: linear-gradient(135deg, #e09800, #d4500a); }
+
+
+    section {
+      margin-top: 2rem;
+    }
+
+    hr {
+      margin: 2rem 0;
+      border: none;
+      border-top: 2px solid #ddd;
+    }
+
+    small {
+      color: #666;
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.9em;
+      text-align: center;
+    }
+
+    figure {
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+
+    figure img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .video {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+    }
+
+    .video iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    pre {
+      background: #f4f4f4;
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 760px) {
+      main { padding: 1.25rem 1rem; }
+      h1 { font-size: 1.55rem; }
+      h1 .sub { font-size: 1.15rem; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>EgoMo3R<span class="sub">Joint Egocentric Motion and Scene Reconstruction</span></h1>
+
+    <p class="meta">
+      <a href="https://chaitanya100100.github.io/" target="_blank">Chaitanya Patel</a><sup>1</sup>,
+      Yusuke Kato<sup>1,2</sup>,
+      Rin Takahira<sup>3</sup>,
+      <a href="https://kazukikozuka.net/" target="_blank">Kazuki Kozuka</a><sup>3</sup>,
+      <a href="https://www.niebles.net/" target="_blank">Juan Carlos Niebles</a><sup>1</sup>,
+      <a href="https://stanford.edu/~eadeli/" target="_blank">Ehsan Adeli</a><sup>1</sup><br>
+      <span class="affil">
+        <sup>1</sup>Stanford University, <sup>2</sup>Panasonic R&amp;D Company of America, <sup>3</sup>Panasonic Holdings Corporation
+      </span>
+    </p>
+
+    <p class="venue">NeurIPS 2026</p>
+
+    <div class="links">
+      <a href="./Patel2026EgoMo3R.pdf" target="_blank">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg>
+        Paper
+      </a>
+      <!-- TODO: replace with arXiv link -->
+      <a href="https://arxiv.org/abs/XXXX.XXXXX" target="_blank">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v2H4zm0 4h16v2H4zm0 4h10v2H4zm0 4h10v2H4z"/></svg>
+        ArXiv
+      </a>
+      <!-- TODO: replace with code repository link -->
+      <a href="https://github.com/chaitanya100100/EgoMo3R" target="_blank">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
+        Code
+      </a>
+      <a class="interactive" href="./interactive/" target="_blank">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5zm0 2.3 6.6 3.7L12 11.7 5.4 8 12 4.3zM5 9.7l6 3.4v6.6l-6-3.4V9.7zm8 10v-6.6l6-3.4v6.6l-6 3.4z"/></svg>
+        Interactive Results
+      </a>
+      <a href="#bibtex">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+        BibTeX
+      </a>
+    </div>
+
+
+    <hr>
+
+    <div class="video">
+      <iframe src="https://www.youtube.com/embed/x3icE-MhRBQ?autoplay=1&mute=1" title="EgoMo3R" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+    <hr>
+
+    <section>
+      <h2>Abstract</h2>
+      <p>
+        Understanding holistic 3D human motion and the surrounding environment from egocentric video is fundamental for applications in AR/VR and robotics. Although these tasks are inherently coupled, existing methods treat them separately. In particular, egocentric motion reconstruction methods typically assume access to metric, gravity-aligned camera trajectories from specialized inertial sensors. Recovering such trajectories from monocular egocentric video remains a significant challenge due to rapid head movements and motion blur. We present EgoMo3R, a joint optimization framework that simultaneously reconstructs 3D human motion and scene geometry from casual egocentric video. It leverages the robustness of low-level visuo-geometric primitives, including monocular depth, optical flow, and point tracks, integrated with a diffusion-based human motion prior via first-order optimization. We propose an alternating optimization scheme that establishes a synergistic feedback loop: scene reconstruction provides physical grounding and trajectory conditioning for the motion prior, while the motion prior regularizes the camera trajectory and anchors the scene in a metric, gravity-aligned world frame. We evaluate EgoMo3R on the highly dynamic sequences of the EgoExo4D and Nymeria datasets and show that it outperforms specialized baselines in both 3D scene reconstruction and egocentric motion estimation.
+      </p>
+    </section>
+
+    <hr>
+
+    <h2>Joint Motion and Scene Reconstruction</h2>
+    <figure>
+      <img src="./figures/teaser.jpg" alt="EgoMo3R teaser: input egocentric video frames on the left; reconstructed 3D scene point cloud with full-body human motion and camera frustums on the right." />
+      <small>
+        Given an egocentric video, EgoMo3R optimizes for camera poses, 3D pointmaps, and human motion in a common gravity-aligned metric reference frame. Two additional views of the scene and motion reconstruction are shown on the right.
+      </small>
+    </figure>
+
+    <hr>
+
+    <h2>Method</h2>
+    <figure>
+      <img src="./figures/overview.jpg" alt="EgoMo3R method overview" />
+      <small>
+        Given an input video <b>I</b>, we use a monocular depth estimator to obtain relative depth <b>D</b><sup>r</sup> as a geometric base, optimizing only the per-frame scales <b>S</b> to derive metric depth <b>D</b>. The framework jointly optimizes camera poses <b>C</b>, which transform metric depth into world-frame pointmaps <b>P</b><sup>W</sup>, and 3D human motion <b>M</b>. We alternate between (1) Scene Refinement, which updates <b>C</b> and <b>S</b> using optical flow, point tracks, and a scene-alignment loss anchored in the canonical frame provided by motion, and (2) Motion Alignment, which refines <b>M</b> with a diffusion motion prior conditioned on <b>C</b>. This synergistic loop prevents optimization collapse and ensures physically grounded joint 3D scene and motion reconstruction.
+      </small>
+    </figure>
+
+    <hr>
+
+    <section id="bibtex">
+      <h2>BibTeX</h2>
+      <pre><code>@inproceedings{patel2026egomo3r,
+  title={EgoMo3R: Joint Egocentric Motion and Scene Reconstruction},
+  author={Patel, Chaitanya and Kato, Yusuke and Takahira, Rin and Kozuka, Kazuki and Niebles, Juan Carlos and Adeli, Ehsan},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2026}
+}</code></pre>
+    </section>
+  </main>
+</body>
+</html>

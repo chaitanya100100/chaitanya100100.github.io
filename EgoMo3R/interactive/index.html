@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EgoMo3R &mdash; Interactive Results</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #fafafa; }
+  body {
+    font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+  }
+
+  /* The viser client fills the viewport; everything else floats over it.
+     Viser puts its playback bar at bottom-center and its scene panel at
+     top-right, so these overlays stay on the left. */
+  #stage { position: fixed; inset: 0; }
+  #stage iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+  .card {
+    position: fixed;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Controls, top-left. */
+  #controls { top: 12px; left: 12px; padding: 10px 12px; width: min(400px, calc(100vw - 24px)); }
+  #title {
+    font-size: .95rem; font-weight: 600; letter-spacing: -0.01em;
+    margin: 0 0 8px; padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  #title span { color: #666; font-weight: 400; font-size: .8rem; }
+
+  .lbl {
+    display: block;
+    font-size: .68rem; text-transform: uppercase; letter-spacing: .07em;
+    color: #666; margin-bottom: 5px;
+  }
+
+  /* Sequence names are long, so list them vertically rather than as pills. */
+  #seqlist { max-height: min(44vh, 300px); overflow-y: auto; margin-bottom: 10px; }
+  #seqlist .grp {
+    font-size: .64rem; text-transform: uppercase; letter-spacing: .06em;
+    color: #999; margin: 7px 0 3px; padding-left: 2px;
+  }
+  #seqlist .grp:first-child { margin-top: 0; }
+  #seqlist button {
+    display: block; width: 100%; text-align: left;
+    font: .715rem/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
+    padding: 5px 8px; margin-bottom: 3px;
+    border: 1px solid #e8e8e8; border-radius: 6px;
+    background: #f7f7f8; color: #333;
+    cursor: pointer; word-break: break-all;
+  }
+  #seqlist button:hover { border-color: #2b6cb0; color: #1a1a1a; }
+  #seqlist button[aria-selected="true"] {
+    background: #2b6cb0; border-color: #2b6cb0; color: #fff; font-weight: 600;
+  }
+
+  #viewrow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  #viewrow button {
+    font: inherit; font-size: .82rem;
+    padding: 4px 11px;
+    border: 1px solid #e2e2e2; border-radius: 999px;
+    background: #f4f4f5; color: #1a1a1a; cursor: pointer;
+  }
+  #viewrow button:hover { border-color: #2b6cb0; }
+
+  /* Input video, bottom-left. Lifted clear of viser's bottom-centre playback
+     bar so the two never overlap at any viewport width. */
+  #videobox, #showvideo { bottom: 76px; left: 12px; }
+  #videobox { width: min(464px, calc(100vw - 24px)); overflow: hidden; }
+  #videobox video { width: 100%; display: block; background: #000; }
+  #videobox .bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 6px; padding: 5px 10px;
+    font-size: .76rem; color: #666;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  #videobox .bar button {
+    font: inherit; font-size: .76rem;
+    background: none; border: 0; color: #666; cursor: pointer; padding: 0 2px;
+  }
+  #videobox .bar button:hover { color: #2b6cb0; }
+  #showvideo {
+    padding: 7px 12px;
+    font: inherit; font-size: .78rem; color: #1a1a1a; cursor: pointer; display: none;
+  }
+
+  @media (max-width: 820px), (max-height: 560px) {
+    #videobox { width: min(264px, calc(100vw - 24px)); }
+    #seqlist { max-height: 28vh; }
+  }
+</style>
+</head>
+<body>
+
+<div id="stage"><iframe id="viewer" title="Interactive 3D result" allow="fullscreen"></iframe></div>
+
+<div class="card" id="controls">
+  <div id="title">EgoMo3R <span>&mdash; interactive results</span></div>
+  <span class="lbl">Sequence</span>
+  <div id="seqlist"></div>
+  <span class="lbl">View</span>
+  <div id="viewrow">
+    <button type="button" id="restart">Restart</button>
+    <button type="button" id="fullscreen">Fullscreen</button>
+  </div>
+</div>
+
+<div class="card" id="videobox">
+  <video id="video" muted loop autoplay playsinline></video>
+  <div class="bar"><span>Input video</span><button type="button" id="hidevideo">hide</button></div>
+</div>
+<button class="card" id="showvideo" type="button">Show input video</button>
+
+<script>
+  // One .viser file and one input video per sequence, named
+  // <dataset>__<sequence>. Listed under their dataset heading.
+  const SEQUENCES = [
+    { dataset: "EgoExo4D", name: "iiith_cooking_58_2___0___8" },
+    { dataset: "EgoExo4D", name: "cmu_soccer06_3___111___119" },
+    { dataset: "EgoExo4D", name: "georgiatech_cooking_02_01_2___561___569" },
+    { dataset: "Nymeria",  name: "20230727_s0_joanne_white_act1_5cv2fd___481___489" },
+    { dataset: "Nymeria",  name: "20230623_s0_erin_mccormick_act4_bi2mh1___335___343" },
+  ];
+  const DATASET_DIR = { "EgoExo4D": "egoexo4d", "Nymeria": "nymeria" };
+  const assetBase = (seq) => "data/" + DATASET_DIR[seq.dataset] + "__" + seq.name;
+
+  const viewer = document.getElementById("viewer");
+  const video = document.getElementById("video");
+  const videobox = document.getElementById("videobox");
+  const showvideo = document.getElementById("showvideo");
+  const seqlist = document.getElementById("seqlist");
+
+  // Deep-linkable: index.html?seq=2
+  const params = new URLSearchParams(location.search);
+  let cur = Math.min(Math.max(parseInt(params.get("seq") ?? "0") || 0, 0), SEQUENCES.length - 1);
+
+  // playbackPath is resolved by the viewer page in viewer/, so prepend one ../
+  // No darkMode flag, so the viser client renders in its light theme.
+  const viewerUrl = (file) =>
+    "viewer/index.html?playbackPath=" + encodeURIComponent("../" + file);
+
+  const buttons = [];
+
+  function load() {
+    const seq = SEQUENCES[cur];
+    const base = assetBase(seq);
+
+    // Reloading the iframe restarts playback at t=0, so restart the video at
+    // the same moment. Both are 8 s wall-clock loops, so they stay aligned
+    // until someone pauses or scrubs the 3D view.
+    viewer.src = viewerUrl(base + ".viser");
+    if (!video.src.endsWith(base + ".mp4")) video.src = base + ".mp4";
+    video.currentTime = 0;
+    video.play().catch(() => {});
+
+    buttons.forEach((b, i) => b.setAttribute("aria-selected", String(i === cur)));
+    history.replaceState(null, "", "?seq=" + cur);
+  }
+
+  let lastDataset = null;
+  SEQUENCES.forEach((seq, i) => {
+    if (seq.dataset !== lastDataset) {
+      const g = document.createElement("div");
+      g.className = "grp";
+      g.textContent = seq.dataset;
+      seqlist.appendChild(g);
+      lastDataset = seq.dataset;
+    }
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = seq.name;
+    b.onclick = () => { cur = i; load(); };
+    seqlist.appendChild(b);
+    buttons.push(b);
+  });
+
+  document.getElementById("restart").onclick = load;
+
+  document.getElementById("fullscreen").onclick = () => {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen().catch(() => {});
+  };
+
+  document.getElementById("hidevideo").onclick = () => {
+    videobox.style.display = "none";
+    showvideo.style.display = "block";
+  };
+  showvideo.onclick = () => {
+    videobox.style.display = "";
+    showvideo.style.display = "none";
+  };
+
+  load();
+</script>
+</body>
+</html>
