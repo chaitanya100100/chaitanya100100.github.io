@@ -153,6 +153,13 @@
       font-size: 0.9em;
     }
 
+    .related {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+
+    .related li { margin-bottom: 0.4rem; }
+
     @media (max-width: 760px) {
       main { padding: 1.25rem 1rem; }
       h1 { font-size: 1.55rem; }
@@ -183,8 +190,8 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg>
         Paper
       </a>
-      <!-- TODO: replace with arXiv link -->
-      <a href="https://arxiv.org/abs/XXXX.XXXXX" target="_blank">
+      <!-- TODO: add arXiv link (href) once available -->
+      <a>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v2H4zm0 4h16v2H4zm0 4h10v2H4zm0 4h10v2H4z"/></svg>
         ArXiv
       </a>
@@ -249,6 +256,16 @@
   booktitle={Advances in Neural Information Processing Systems},
   year={2026}
 }</code></pre>
+    </section>
+
+    <hr>
+
+    <section id="related">
+      <h2>Also Check Out</h2>
+      <!-- To add a work, copy one <li> below. -->
+      <ul class="related">
+        <li><a href="../UniEgoMotion/">UniEgoMotion: A Unified Model for Egocentric Motion Reconstruction, Forecasting, and Generation</a>. Chaitanya Patel, Hiroki Nakamura, Yuta Kyuragi, Kazuki Kozuka, Juan Carlos Niebles, Ehsan Adeli. <i>ICCV 2025</i>.</li>
+      </ul>
     </section>
   </main>
 </body>
